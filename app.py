@@ -3,13 +3,13 @@ import os, re
 from urllib.parse import urlencode
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import requests
 from datetime import datetime
 #load_dotenv()
 
 # Configuración de la página
-st.set_page_config(page_title="Megamoda",page_icon="🛍️",layout="wide",initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Megamoda",page_icon="🛍️",layout="wide",initial_sidebar_state="expanded")
 
 # CSS personalizado para el diseño de lujo
 with open("estilos/css_login.html", "r") as file:
@@ -20,15 +20,15 @@ st.markdown(html_content, unsafe_allow_html=True)
 if 'has_run' not in st.session_state:
     st.session_state.has_run = True
     #service_account_key_path = 'serviceAccountKey.json'
+    service_account_key_path = st.secrets["firebase"]
     collection_name = "usuarios"
     st.session_state.redirect_uri = "https://megamodaecommerceplatform.streamlit.app"
 
     # --- Inicialización de Firebase ADMIN SDK ---
     if not firebase_admin._apps:
-        firebase_config = dict(st.secrets["firebase"])
-        firebase_config["private_key"] = firebase_config["private_key"].replace("\\n", "\n")
+        service_account_dict = dict(service_account_key_path)
         #cred = credentials.Certificate(service_account_key_path)
-        cred = credentials.Certificate(firebase_config)
+        cred = credentials.Certificate(service_account_dict)
         firebase_admin.initialize_app(cred)
     st.session_state.db = firestore.client()
 
@@ -165,7 +165,7 @@ def google_login_button():
     """
 
     button_html = f"""<button class="google-login-btn">{google_svg}Continue with Google</button>"""
-    return f"""<a href="{google_auth()}" target="_self" style="text-decoration: none;">{button_html}</a>"""
+    return f"""<a href="{google_auth()}" target="_blank" style="text-decoration: none;">{button_html}</a>"""
 
 # Función para recuperar el usuario basado en session_id
 def get_user_from_firestore(session_id):
