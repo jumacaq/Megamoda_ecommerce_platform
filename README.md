@@ -3,7 +3,7 @@
 Una aplicación de e-commerce moderna y elegante desarrollada con Streamlit, que ofrece una experiencia de compra premium con autenticación OAuth, gestión de carrito.
 
 Interactúa con el proyecto desplegado aquí:
-https://xperience-ecommerce.streamlit.app/
+https://megamodaecommerceplatform.streamlit.app/
 
 
 
